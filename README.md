@@ -19,6 +19,28 @@ python analysis.py
 
 Results: written to `results.json` (and `figures/macro_f1.png`).
 
+## Results (latest run)
+
+On the scikit-learn digits dataset (macro-F1, 540-image held-out test split), a standard fractal pre-training stand-in (MLP pre-trained on random IFS fractal images, then fine-tuned) scored 0.104, while the k-means-diversity-selected budget scored 0.105, a difference within noise across 3 seeds.
+
+| Metric | Value |
+|---|---|
+| baseline_score | 0.1039 |
+| baseline_score_std | 0.01194 |
+| improved_score | 0.1046 |
+| improved_score_std | 0.003103 |
+| improvement | 0.0006575 |
+| baseline_f1 | 0.1039 |
+| improved_f1 | 0.1046 |
+| baseline_accuracy | 0.137 |
+| improved_accuracy | 0.1352 |
+| baseline_pretrain_seconds | 0.4269 |
+| improved_pretrain_seconds | 2.112 |
+
+Run on 2026-10-21. Full output: [results.json](results.json) · [run.log](run.log)
+
+Notes: Stand-in for the paper's fractal pre-training (not its ViT/CNN); MLPClassifier replaces it. Budget is equal for both methods, so the 'small budget' part of the question is not tested directly. Improved pre-training time includes pool generation and k-means, so it is not a speed-up. k-means on pixels ignores labels, so class balance of the selected set is not enforced. Hyper-parameters were fixed a priori, not tuned. Only 3 seeds and one digit split; the test set was used once at the end.
+
 ## Reference
 
 This project is motivated by the following paper:
