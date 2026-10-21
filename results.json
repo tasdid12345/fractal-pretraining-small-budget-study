@@ -1,0 +1,31 @@
+{
+  "question": "Can fractal pre-training with a small, cheaply generated synthetic budget, chosen by diversity, match or beat fractal pre-training with a larger random budget on a small downstream digit-recognition task?",
+  "method": "IFS fractal pre-training stand-in for an MLP on sklearn digits; 70/30 stratified split; 20 labelled digits per class for fine-tuning; baseline pre-trains on a random fractal budget, improved pre-trains on the same budget chosen by k-means diversity from a 5x larger pool; seeds 42, 43, 44.",
+  "dataset": {
+    "name": "scikit-learn optical recognition of handwritten digits (load_digits)",
+    "source_url": "https://scikit-learn.org/stable/datasets/toy_dataset.html#optical-recognition-of-handwritten-digits-dataset",
+    "n_rows": 1797,
+    "n_train": 1257,
+    "n_test": 540,
+    "same_as_paper": false,
+    "baseline_is_papers_method": false
+  },
+  "metric_name": "macro-F1 on held-out test split",
+  "higher_is_better": true,
+  "baseline": "MLP (128 hidden units) pre-trained on a random budget of 2000 IFS fractal images labelled by IFS class, then fine-tuned on 200 labelled digits.",
+  "improved": "Same MLP, same 2000-image budget, but the images are chosen by k-means diversity from a pool of 10000 generated fractal images before identical pre-training and fine-tuning.",
+  "metrics": {
+    "baseline_score": 0.10391279565150897,
+    "baseline_score_std": 0.011939919894888785,
+    "improved_score": 0.10457030885538998,
+    "improved_score_std": 0.0031028132949319923,
+    "improvement": 0.0006575132038810078,
+    "baseline_f1": 0.10391279565150897,
+    "improved_f1": 0.10457030885538998,
+    "baseline_accuracy": 0.13703703703703704,
+    "improved_accuracy": 0.13518518518518516,
+    "baseline_pretrain_seconds": 0.4268693426666677,
+    "improved_pretrain_seconds": 2.1116247073333363
+  },
+  "notes": "Stand-in for the paper's fractal pre-training (not its ViT/CNN); MLPClassifier replaces it. Budget is equal for both methods, so the 'small budget' part of the question is not tested directly. Improved pre-training time includes pool generation and k-means, so it is not a speed-up. k-means on pixels ignores labels, so class balance of the selected set is not enforced. Hyper-parameters were fixed a priori, not tuned. Only 3 seeds and one digit split; the test set was used once at the end."
+}
